@@ -1,0 +1,16 @@
+syntax = "proto3";
+package ClientData;
+
+message Client
+{
+    string first_name = 1;
+    string last_name = 2;
+    int32 age = 3;
+    enum Role
+    {
+        User = 0;
+        Developer = 1;
+        Admin = 2;
+    }
+    Role role = 4;
+}
