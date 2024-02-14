@@ -15,11 +15,11 @@ set(sources ${sources}
     src/ProtoOverUDP.cpp
 )
 
-
 add_executable(proto_over_udp ${sources} ${protoschema})
 
+
 TARGET_LINK_LIBRARIES(
-   proto_over_udp PRIVATE
+   proto_over_udp
    asio
    ProtoFiles
 )

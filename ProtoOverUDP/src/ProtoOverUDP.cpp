@@ -2,8 +2,13 @@
 #include <asio.hpp>
 #include "../build/schema/ClientData.pb.h"
 
-int main()
+int main(int argc, char *argv[])
 {
+    ClientData::Client newClient;
+    std::string first_name = "Jimmy";
+    newClient.set_first_name(first_name);
+    //newClient.
+    //Send data over UDP
     try
     {
         asio::io_context io_context;
