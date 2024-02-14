@@ -13,14 +13,13 @@ ADD_SUBDIRECTORY(schema)
 
 set(sources ${sources} 
     src/ProtoOverUDP.cpp
-    schema/ClientData.pb.h
-    schema/ClientData.pb.cc
 )
 
-add_executable(proto_over_udp ${sources})
+add_executable(proto_over_udp ${sources} ${protoschema})
 
 
 TARGET_LINK_LIBRARIES(
    proto_over_udp
    asio
+   ProtoFiles
 )

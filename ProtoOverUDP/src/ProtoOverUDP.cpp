@@ -1,6 +1,6 @@
 #include <iostream>
 #include <asio.hpp>
-#include "../schema/ClientData.pb.h"
+#include "../build/schema/ClientData.pb.h"
 
 int main(int argc, char *argv[])
 {
