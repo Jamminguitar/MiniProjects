@@ -1,30 +1,36 @@
 #include <iostream>
-#include <asio.hpp>
-#include "../build/schema/ClientData.pb.h"
+#include "ClientData.pb.h"
 
 int main(int argc, char *argv[])
 {
     ClientData::Client newClient;
-    std::string first_name = "Jimmy";
-    newClient.set_first_name(first_name);
-    //newClient.
-    //Send data over UDP
-    try
-    {
-        asio::io_context io_context;
-        asio::ip::udp::socket socket{io_context};
-        socket.open(asio::ip::udp::v4());
+    newClient.set_first_name("Jimmy");
+    newClient.set_last_name("Avery");
+    newClient.set_age(32);
+    newClient.set_role(ClientData::Client::Developer);
 
-        socket.send_to(
-            asio::buffer("Hello World!"),
-            asio::ip::udp::endpoint{asio::ip::make_address("10.15.60.93"),3303}
-        );
+    int size = newClient.ByteSize();
+    char *buffer = (char *) malloc(size);
+    newClient.SerializeToArray(buffer, size);
+
+    //Send data over UDP
+    int s;
+    struct sockaddr_in sock_info;
+    unsigned int s_len = sizeof(sock_info);
+    if ((s = socket(AF_INET, SOCK_DGRAM, IPPROTO_UDP)) == -1) {
+        printf("Unable to open socket()");
     }
-    catch(const std::exception& e)
-    {
-        std::cerr << e.what() << '\n';
-        return -1;
+    memset((char *) &sock_info, 0 sizeof(sock_info));
+    so_other.sin_family = AF_INET;
+    sock_info.sin_port = htons(15500);
+    sock_info.sin_addr.s_addr = inet_addr(destAddr);
+    if ((sendto(s, buffer, size, 0, (struct sockaddr *) &sock_info, s_len)) == -1) {
+        printf("Unable to complete sendto()");
     }
-    
+    close(s);
+
+    //Free malloced data
+    free(buffer);
+
     return 0;
 }
