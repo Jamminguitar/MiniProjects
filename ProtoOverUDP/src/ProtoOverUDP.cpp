@@ -23,7 +23,7 @@ int main(int argc, char *argv[])
     memset((char *) &sock_info, 0 sizeof(sock_info));
     so_other.sin_family = AF_INET;
     sock_info.sin_port = htons(15500);
-    sock_info.sin_addr.s_addr = inet_addr(destAddr);
+    sock_info.sin_addr.s_addr = inet_addr("127.0.0.1");
     if ((sendto(s, buffer, size, 0, (struct sockaddr *) &sock_info, s_len)) == -1) {
         printf("Unable to complete sendto()");
     }
