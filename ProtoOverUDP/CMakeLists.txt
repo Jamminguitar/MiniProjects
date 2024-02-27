@@ -7,7 +7,6 @@ project(
 
 find_package(Protobuf REQUIRED)
 
-ADD_SUBDIRECTORY(libs)
 ADD_SUBDIRECTORY(schema)
 
 
@@ -20,6 +19,5 @@ add_executable(proto_over_udp ${sources} ${protoschema})
 
 TARGET_LINK_LIBRARIES(
    proto_over_udp
-   asio
    ProtoFiles
 )
