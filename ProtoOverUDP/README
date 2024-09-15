@@ -1,0 +1,1 @@
+Compile protobuf: protoc -I=./ --cpp_out=./ ClientData.proto
