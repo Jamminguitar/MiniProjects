@@ -13,17 +13,23 @@ Player::Player()
     this->radius = 15;
     this->accelHorz = 0;
     this->accelVert = 0;
-    gun = new Shooter(15);
+    skills[0] = new BasicAttack();
+    for (int i = 1; i < 8; i++) {
+        skills[i] = new EmptyAttack();
+    }
 }
 
 void Player::Update()
 {
-    //TODO: always ends in 45 degree angle
+    //TODO: Set a flag for when we have just collided? Trying to solve "bouncing" issue on edges
+
+    // Ensure that if no velocity is found, we still record the previous velocity
     if (!(speedX == 0 && speedY == 0)) {
         prevSpeedX = speedX;
         prevSpeedY = speedY;
     }
 
+    // Key up and down logic
     if (IsKeyDown(KEY_UP) || IsKeyDown(KEY_DOWN))
     {
         if (IsKeyDown(KEY_UP) && speedY > -8)
@@ -41,6 +47,7 @@ void Player::Update()
             speedY = 0;
     }
 
+    // Key left and right logic
     if (IsKeyDown(KEY_LEFT) || IsKeyDown(KEY_RIGHT))
     {
         if (IsKeyDown(KEY_LEFT) && speedX > -8)
@@ -58,32 +65,27 @@ void Player::Update()
             speedX = 0;
     }
 
+    // If out of bounds, bounce off of the wall
     if (x + radius >= GetScreenWidth() || x - radius <= 0)
     {
         speedX = -speedX / 2;
+        // At small enough speeds, set the speed to 0
         if (abs(speedX) < 2)
             speedX = 0;
-        if (x + radius >= GetScreenWidth())
-            x -= 2;
-        else if (x - radius <= 0)
-            x += 2;
     }
-    
-
     if (y + radius >= GetScreenHeight() || y - radius <= 0)
     {
         speedY = -speedY / 2;
+        // At small enough speeds, set the speed to 0
         if (abs(speedY) < 2)
             speedY = 0;
-        if (y + radius >= GetScreenHeight())
-            y -= 2;
-        else if (y - radius <= 0)
-            y += 2;
     }
 
+    // Update positions
     x += speedX;
     y += speedY;
 
+    // Check that we have not exited the boundaries
     if (x + radius >= GetScreenWidth())
         x -= 2;
     else if (x - radius <= 0)
@@ -103,14 +105,18 @@ void Player::Update()
             passedSpeedX = speedX;
             passedSpeedY = speedY;
         }
-        gun->SpawnBullet(x, y, passedSpeedX, passedSpeedY, 3);
+        skills[0]->SpawnBullet(x, y, passedSpeedX, passedSpeedY);
         
     }
-    gun->Update();
+    for (int i = 0; i < 8; i++) {
+        skills[i]->Update();
+    }
 }
 
 void Player::Draw()
 {
     DrawCircle(x, y, radius, WHITE);
-    gun->Draw();
+    for (int i = 0; i < 8; i++) {
+        skills[i]->Draw();
+    }
 }

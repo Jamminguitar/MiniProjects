@@ -3,12 +3,13 @@
 #include <raylib.h>
 #include <cmath>
 
-Shooter::Shooter(int bulletSpeed)
+Shooter::Shooter(int bulletSpeed, int bulletRadius)
 {
     this->bulletSpeed = bulletSpeed;
+    this->bulletRadius = bulletRadius;
 }
 
-void Shooter::SpawnBullet(float x, float y, float speedX, float speedY, int radius)
+void Shooter::SpawnBullet(float x, float y, float speedX, float speedY)
 {
     if (bulletCount == MAX_BULLETS) {
         CheckActive();
@@ -21,27 +22,8 @@ void Shooter::SpawnBullet(float x, float y, float speedX, float speedY, int radi
     bullet[bulletCount].y = y;
     bullet[bulletCount].speedX = bulletSpeed * speedX;
     bullet[bulletCount].speedY = bulletSpeed * speedY;
-    bullet[bulletCount].radius = radius;
+    bullet[bulletCount].radius = bulletRadius;
     ++bulletCount;
-}
-
-void Shooter::RemoveBullet(int n)
-{
-    bullet[n] = bullet[--bulletCount];
-}
-
-void Shooter::CheckActive()
-{
-    int i = 0;
-    while (i < bulletCount) {
-        // Check if bullet out of bounds. Replace with last bullet in list if so
-        if (bullet[i].x < 0 || bullet[i].y < 0 || bullet[i].x > GetScreenWidth() || bullet[i].y > GetScreenHeight()) {
-            RemoveBullet(i);
-        } else {
-            // Check the next bullet if active
-            ++i;
-        }
-    }
 }
 
 void Shooter::Update()
@@ -63,5 +45,23 @@ void Shooter::Draw()
     }
 }
 
+void Shooter::CheckActive()
+{
+    int i = 0;
+    while (i < bulletCount) {
+        // Check if bullet out of bounds. Replace with last bullet in list if so
+        if (bullet[i].x < 0 || bullet[i].y < 0 || bullet[i].x > GetScreenWidth() || bullet[i].y > GetScreenHeight()) {
+            RemoveBullet(i);
+        } else {
+            // Check the next bullet if active
+            ++i;
+        }
+    }
+}
+
+void Shooter::RemoveBullet(int n)
+{
+    bullet[n] = bullet[--bulletCount];
+}
 
 

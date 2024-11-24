@@ -1,6 +1,7 @@
+// This is the player class that each player will use when exploring the game
+
 #pragma once
-#include "shooter.h"
-#include "list.h"
+#include "skills.h"
 
 class Player
 {
@@ -19,5 +20,5 @@ private:
     float accelHorz;
     float accelVert;
     int radius;
-    Shooter *gun;
+    Shooter* skills[8];
 };
